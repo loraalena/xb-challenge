@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h2>Добавить строку с городами и всеми характеристиками</h2>
+<input type="text" id="all-cities" placeholder="Введите строку с всеми данными.."/>
+<input type="button" id="btn-all-cities" value="Добавить"/>
+<br>
+<hr>
+<div class="hide" id="operations-with-cities">
+    <h2>Найти город по выбранной опции</h2>
+    <select id="option">
+        <option value="northern">Самый северный город</option>
+        <option value="southern">Самый южный город</option>
+        <option value="eastern">Самый восточный город</option>
+        <option value="western">Самый западный город</option>
+    </select><br>
+    <input type="button" value="Найти" id="btn-city-for-option"/>
+    <div id="result-city-for-option"></div>
+    <hr>
+
+    <h2>Найти ближайший город</h2>
+    <input type="number" placeholder="Широта" id="latitude-from-user"/>
+    <input type="number" placeholder="Долгота" id="longitude-from-user"/> <br>
+    <input type="button" value="Найти" id="btn-city-for-location"/>
+    <div id="result-closest-city"></div>
+    <hr>
+
+    <h2>Вывести строку с аббревиатурами</h2>
+    <div id="result-abbr"></div>
+    <input type="button" value="Вывести" id="btn-show-abbr">
+    <hr>
+
+    <h2>Поиск по штату</h2>
+    <input type="search" id="search" placeholder="Поиск.."/>
+    <input type="button" value="Поиск" id="btn-search"/>
+    <div id="result-for-search"></div>
+    <hr>
+
+    <h2>Добавить город</h2>
+    <form>
+        <label for="city">Название города: </label>
+        <input type="text" id="city"/> <br>
+        <label for="abbr">Аббревиатура города: </label>
+        <input type="text" id="abbr"/> <br>
+        <label for="latitude">Широта: </label>
+        <input type="number" id="latitude" min="-90" max="90"/> <br>
+        <label for="longitude">Долгота: </label>
+        <input type="number" id="longitude" min="-180" max="180"/> <br>
+        <input type="button" value="Добавить" id="btn-add-city">
+    </form>
+</div>
+</body>
+<script src="index.js"></script>
+</html>
