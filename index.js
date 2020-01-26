@@ -109,6 +109,19 @@ function CityMap(citiesToInit) {
     this.getCityCount = () => {
         return this.cities.length;
     };
+
+    this.getStatOnStates = () => {
+        let statOnStates = {};
+        this.cities.map((city) => {
+            if (!statOnStates[city.abbr]) {
+                statOnStates[city.abbr] = 1;
+            } else {
+                statOnStates[city.abbr] += 1;
+            }
+        });
+        return statOnStates;
+    };
+
 }
 
 function City(name, abbr, latitude, longitude) {
@@ -119,6 +132,47 @@ function City(name, abbr, latitude, longitude) {
 }
 
 let cityMap;
+
+let updateDiagram = () => {
+    document.getElementById("chart-div").innerText = "";
+    let statOnStates = cityMap.getStatOnStates();
+    let citiesForDiagram = [];
+
+    let getRandomColor = () => {
+        let letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    };
+
+    let cityForDiagram = {};
+    for (let stateName in statOnStates) {
+        if (statOnStates.hasOwnProperty(stateName)) {
+            cityForDiagram = {numberOfCity: statOnStates[stateName], state: stateName, color: getRandomColor()};
+            citiesForDiagram.push(cityForDiagram);
+        }
+    }
+
+    webix.ui({
+        view: "chart",
+        type: "donut",
+        container: "chart-div",
+        value: "#numberOfCity#",
+        color: "#color#",
+        legend: {
+            width: 75,
+            align: "right",
+            valign: "middle",
+            template: "#state#"
+        },
+        pieInnerText: "#numberOfCity#",
+        shadow: 0,
+        gradient: true,
+        data: citiesForDiagram
+    });
+};
 
 let addToLocalStorage = () => {
     localStorage.setItem("cities", JSON.stringify(cityMap.getCitiesDataForExport()));
@@ -132,6 +186,7 @@ let addToConstructor = () => {
         cityMap = new CityMap(allCities);
         addToLocalStorage();
         operationsWithCities.classList.remove("hide");
+        updateDiagram();
         alert("Города добавлены");
     } else {
         alert("Введите строку с городами");
@@ -208,6 +263,7 @@ let addNewCity = () => {
         alert("Введите данные");
     }
     addToLocalStorage();
+    updateDiagram();
 };
 let btnAddCity = document.getElementById("btn-add-city");
 btnAddCity.addEventListener("click", addNewCity);
@@ -224,6 +280,7 @@ window.onload = () => {
     if (cityMap) {
         if (cityMap.getCityCount() > 0) {
             operationsWithCities.classList.remove("hide");
+            updateDiagram();
         } else {
             operationsWithCities.classList.add("hide");
         }
